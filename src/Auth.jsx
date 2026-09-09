@@ -57,7 +57,7 @@ function Button({children, className = '', disabled = false}) {
     <button
       type="submit"
       disabled={disabled}
-      className={`w-full rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 px-5 py-3.5 text-sm font-semibold text-white shadow-md shadow-violet-600/20 transition-all duration-200 hover:from-violet-700 hover:to-indigo-700 hover:shadow-lg hover:shadow-violet-600/30 hover:-translate-y-0.5 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer ${className}`}
+      className={`w-full rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 px-5 py-3.5 text-sm font-semibold text-white shadow-md shadow-violet-600/25 transition-all duration-200 hover:from-violet-700 hover:to-indigo-700 hover:shadow-lg hover:shadow-violet-600/35 hover:-translate-y-0.5 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer ${className}`}
     >
       {children}
     </button>
@@ -142,29 +142,65 @@ export default function ConnectedAuth({mode, setMode, enter}) {
   return (
     <div className="flex min-h-screen items-center justify-center p-6 sm:p-10">
       <div className="mx-auto grid w-full max-w-6xl items-center gap-12 lg:grid-cols-2">
+        {/* Left Hero Column */}
         <div className="hidden text-center lg:block">
-          <div className="flex justify-center"><Mascot/></div>
-          <h1 className="mt-8 font-hand text-5xl font-normal leading-tight text-slate-800">
-            {forgot ? 'Forgot your password?' : mode === 'signup' ? "Let’s create your Yokai space! ✨" : 'Welcome back! 👋'}
+          <div className="relative inline-flex items-center justify-center mb-6">
+            <div className="absolute -inset-4 rounded-full bg-gradient-to-r from-violet-400/30 to-indigo-400/30 blur-xl animate-pulse"/>
+            <Mascot />
+          </div>
+          
+          <h1 className="font-hand text-5xl sm:text-6xl font-normal leading-tight text-slate-800">
+            {forgot ? 'Forgot your password?' : mode === 'signup' ? (
+              <>Let’s create your <span className="text-violet-600 font-sans font-bold">Yokai</span> space! ✨</>
+            ) : (
+              <>Welcome back to <span className="text-violet-600 font-sans font-bold">Yokai AI</span> 👋</>
+            )}
           </h1>
-          <p className="mx-auto mt-3 max-w-md text-base leading-relaxed text-slate-500">
-            {forgot ? 'No worries. Yokai will help you get back in. ✨' : mode === 'signup' ? 'One place for all your documents and AI-powered edits.' : 'Let’s get back to your documents.'}
+          
+          <p className="mx-auto mt-4 max-w-md text-base leading-relaxed text-slate-600">
+            {forgot ? 'No worries. Yokai will help you get back in safely. ✨' : mode === 'signup' ? 'One intelligent workspace for all your technical documents, templates, and AI edits.' : 'Your technical lab experiments, papers, and structured reports stay 100% format-safe.'}
           </p>
+
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <div className="flex items-center gap-2 rounded-2xl border border-white/80 bg-white/60 px-4 py-2.5 shadow-xs backdrop-blur-md">
+              <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-violet-100 text-xs font-bold text-violet-700">📄</span>
+              <span className="text-xs font-semibold text-slate-700">100% DOCX Layout Safe</span>
+            </div>
+            <div className="flex items-center gap-2 rounded-2xl border border-white/80 bg-white/60 px-4 py-2.5 shadow-xs backdrop-blur-md">
+              <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-emerald-100 text-xs font-bold text-emerald-700">⚡</span>
+              <span className="text-xs font-semibold text-slate-700">Run-Level Mutation</span>
+            </div>
+            <div className="flex items-center gap-2 rounded-2xl border border-white/80 bg-white/60 px-4 py-2.5 shadow-xs backdrop-blur-md">
+              <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-blue-100 text-xs font-bold text-blue-700">🤖</span>
+              <span className="text-xs font-semibold text-slate-700">3-Tier AI Resilience</span>
+            </div>
+          </div>
         </div>
         
-        <Glass className="mx-auto w-full max-w-md rounded-[32px] border border-white/90 p-8 shadow-2xl backdrop-blur-xl sm:p-10">
+        {/* Right Auth Glass Card */}
+        <Glass className="mx-auto w-full max-w-md rounded-[32px] border border-white/90 p-8 shadow-2xl shadow-violet-900/10 backdrop-blur-2xl sm:p-10">
           <form onSubmit={submit}>
             <div className="mb-6 flex items-center gap-3 lg:hidden">
               <Mascot small/>
               <b className="font-hand text-3xl text-slate-800">Yokai <em className="not-italic text-violet-600">AI</em></b>
             </div>
             
-            <p className="eyebrow tracking-widest text-slate-400">YOUR DOCUMENT ASSISTANT</p>
-            <h2 className="mt-1 font-hand text-4xl font-medium text-slate-900">
-              {forgot ? 'Reset your password' : mode === 'signup' ? 'Create your account' : 'Sign in to Yokai AI'}
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-violet-200/80 bg-violet-100/70 px-3.5 py-1.5 text-[10px] font-bold text-violet-700 backdrop-blur-md">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-violet-400 opacity-75"></span>
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-violet-600"></span>
+              </span>
+              <span className="uppercase tracking-widest">YOUR DOCUMENT ASSISTANT</span>
+            </div>
+
+            <h2 className="font-hand text-4xl sm:text-5xl font-normal text-slate-900 leading-tight mb-2">
+              {forgot ? 'Reset your password' : mode === 'signup' ? 'Create your account' : (
+                <>Sign in to <span className="font-sans font-bold bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">Yokai AI</span></>
+              )}
             </h2>
+
             <p className="mb-7 text-sm leading-relaxed text-slate-500">
-              {forgot ? 'Enter your email and we’ll send a reset link.' : mode === 'signup' ? 'Start filling documents with AI magic.' : 'Continue your document journey. ✨'}
+              {forgot ? 'Enter your email and we’ll send a reset link.' : mode === 'signup' ? 'Start filling documents with AI magic.' : 'Continue your document journey with intelligent formatting. ✨'}
             </p>
             
             {mode === 'signup' && (
@@ -242,16 +278,16 @@ export default function ConnectedAuth({mode, setMode, enter}) {
             {!forgot && (
               <>
                 <div className="my-6 flex items-center gap-3 text-xs font-medium text-slate-400">
-                  <span className="h-px flex-1 bg-slate-200/90"/>
+                  <span className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-300 to-slate-300"/>
                   <span>or continue with</span>
-                  <span className="h-px flex-1 bg-slate-200/90"/>
+                  <span className="h-px flex-1 bg-gradient-to-l from-transparent via-slate-300 to-slate-300"/>
                 </div>
                 
                 <button
                   type="button"
                   onClick={googleSignIn}
                   disabled={busy}
-                  className="relative flex w-full items-center justify-center gap-3 rounded-xl border border-slate-200/90 bg-white/80 py-3.5 px-4 text-sm font-medium text-slate-700 shadow-sm backdrop-blur-sm transition-all duration-200 hover:bg-white hover:border-slate-300 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer"
+                  className="relative flex w-full items-center justify-center gap-3 rounded-xl border border-slate-200/90 bg-white/80 py-3.5 px-4 text-sm font-medium text-slate-700 shadow-xs backdrop-blur-sm transition-all duration-200 hover:bg-white hover:border-slate-300 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer"
                 >
                   <GoogleIcon />
                   <span>Continue with Google</span>
