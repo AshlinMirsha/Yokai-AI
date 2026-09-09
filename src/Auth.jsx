@@ -1,20 +1,30 @@
 import { useState } from 'react';
 import { supabase } from './lib/supabase';
 
-function Mascot({small = false}) {
+/* Clean Purple Cat Face Logo (SVG with transparent background) */
+function CatLogoIcon({ className = 'h-10 w-10' }) {
   return (
-    <div className={`mascot ${small ? 'small' : ''}`}>
-      <i className="horn left-1"/>
-      <i className="horn right-1"/>
-      <b className="eye left-2.5"/>
-      <b className="eye right-2.5"/>
-      <span className="smile"/>
-    </div>
+    <svg className={className} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* Ears */}
+      <path d="M 22 42 L 10 18 L 38 28 Z" fill="#9d7cfd" stroke="#2e2a42" strokeWidth="4" strokeLinejoin="round" />
+      <path d="M 78 42 L 90 18 L 62 28 Z" fill="#9d7cfd" stroke="#2e2a42" strokeWidth="4" strokeLinejoin="round" />
+      <path d="M 23 38 L 16 23 L 34 30 Z" fill="#f472b6" />
+      <path d="M 77 38 L 84 23 L 66 30 Z" fill="#f472b6" />
+      {/* Head */}
+      <ellipse cx="50" cy="56" rx="42" ry="34" fill="#a78bfa" stroke="#2e2a42" strokeWidth="4" />
+      {/* Eyes */}
+      <ellipse cx="36" cy="50" rx="4.5" ry="6" fill="#2e2a42" />
+      <ellipse cx="64" cy="50" rx="4.5" ry="6" fill="#2e2a42" />
+      <circle cx="34.5" cy="48.5" r="1.5" fill="#ffffff" />
+      <circle cx="62.5" cy="48.5" r="1.5" fill="#ffffff" />
+      {/* Nose & Smile */}
+      <polygon points="50,58 46,55 54,55" fill="#f472b6" />
+      <path d="M 44 62 Q 50 67 50 62 Q 50 67 56 62" stroke="#2e2a42" strokeWidth="3.5" strokeLinecap="round" fill="none" />
+      {/* Cheeks */}
+      <circle cx="27" cy="58" r="5" fill="#f472b6" opacity="0.6" />
+      <circle cx="73" cy="58" r="5" fill="#f472b6" opacity="0.6" />
+    </svg>
   );
-}
-
-function Glass({children, className = ''}) {
-  return <section className={`glass ${className}`}>{children}</section>;
 }
 
 function GoogleIcon() {
@@ -30,7 +40,7 @@ function GoogleIcon() {
 
 function MailIcon() {
   return (
-    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg className="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
     </svg>
   );
@@ -38,7 +48,7 @@ function MailIcon() {
 
 function LockIcon() {
   return (
-    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg className="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
     </svg>
   );
@@ -46,39 +56,27 @@ function LockIcon() {
 
 function UserIcon() {
   return (
-    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg className="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
     </svg>
   );
 }
 
-function Button({children, className = '', disabled = false}) {
-  return (
-    <button
-      type="submit"
-      disabled={disabled}
-      className={`w-full rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 px-5 py-3.5 text-sm font-semibold text-white shadow-md shadow-violet-600/25 transition-all duration-200 hover:from-violet-700 hover:to-indigo-700 hover:shadow-lg hover:shadow-violet-600/35 hover:-translate-y-0.5 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer ${className}`}
-    >
-      {children}
-    </button>
-  );
-}
-
 function Field({label, placeholder, type = 'text', value, onChange, icon}) {
   return (
-    <div className="mb-5">
-      <label className="mb-1.5 block text-xs font-semibold tracking-wide text-slate-700">
+    <div className="mb-4 text-left">
+      <label className="mb-1.5 block font-hand text-base font-bold text-slate-800">
         {label}
       </label>
-      <div className="group relative flex items-center rounded-xl border border-slate-200/90 bg-white/70 px-4 py-3 shadow-xs backdrop-blur-sm transition-all duration-200 focus-within:border-violet-500 focus-within:bg-white focus-within:ring-4 focus-within:ring-violet-500/10 hover:border-slate-300">
-        {icon && <span className="mr-3 text-slate-400 transition-colors group-focus-within:text-violet-600">{icon}</span>}
+      <div className="group relative flex items-center rounded-2xl border border-slate-200 bg-white/95 px-4 py-3 shadow-sm focus-within:border-violet-500 focus-within:ring-2 focus-within:ring-violet-400/20 transition-all">
+        {icon && <span className="mr-3 shrink-0">{icon}</span>}
         <input
           required
           type={type}
           placeholder={placeholder}
           value={value}
           onChange={onChange}
-          className="w-full bg-transparent text-sm font-normal text-slate-800 outline-none placeholder:text-slate-400"
+          className="w-full bg-transparent font-hand text-lg text-slate-900 outline-none placeholder:text-slate-400"
         />
       </div>
     </div>
@@ -134,75 +132,111 @@ export default function ConnectedAuth({mode, setMode, enter}) {
   };
 
   const modeSwitch = forgot
-    ? <button type="button" onClick={() => setMode('signin')} className="font-semibold text-violet-600 hover:text-violet-700 hover:underline">← Back to Sign In</button>
+    ? <button type="button" onClick={() => setMode('signin')} className="font-hand text-base font-bold text-violet-600 hover:underline">← Back to Sign In</button>
     : mode === 'signin'
-      ? <>Don’t have an account? <button type="button" onClick={() => setMode('signup')} className="font-semibold text-violet-600 hover:text-violet-700 hover:underline">Create one →</button></>
-      : <>Already have an account? <button type="button" onClick={() => setMode('signin')} className="font-semibold text-violet-600 hover:text-violet-700 hover:underline">Sign in →</button></>;
+      ? <>Don’t have an account? <button type="button" onClick={() => setMode('signup')} className="font-hand text-base font-bold text-violet-600 hover:underline font-semibold">Create one →</button></>
+      : <>Already have an account? <button type="button" onClick={() => setMode('signin')} className="font-hand text-base font-bold text-violet-600 hover:underline font-semibold">Sign in →</button></>;
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-6 sm:p-10">
-      <div className="mx-auto grid w-full max-w-6xl items-center gap-12 lg:grid-cols-2">
-        {/* Left Hero Column */}
-        <div className="hidden text-center lg:block">
-          <div className="relative inline-flex items-center justify-center mb-6">
-            <div className="absolute -inset-4 rounded-full bg-gradient-to-r from-violet-400/30 to-indigo-400/30 blur-xl animate-pulse"/>
-            <Mascot />
-          </div>
-          
-          <h1 className="font-hand text-5xl sm:text-6xl font-normal leading-tight text-slate-800">
-            {forgot ? 'Forgot your password?' : mode === 'signup' ? (
-              <>Let’s create your <span className="text-violet-600 font-sans font-bold">Yokai</span> space! ✨</>
-            ) : (
-              <>Welcome back to <span className="text-violet-600 font-sans font-bold">Yokai AI</span> 👋</>
-            )}
-          </h1>
-          
-          <p className="mx-auto mt-4 max-w-md text-base leading-relaxed text-slate-600">
-            {forgot ? 'No worries. Yokai will help you get back in safely. ✨' : mode === 'signup' ? 'One intelligent workspace for all your technical documents, templates, and AI edits.' : 'Your technical lab experiments, papers, and structured reports stay 100% format-safe.'}
-          </p>
-
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <div className="flex items-center gap-2 rounded-2xl border border-white/80 bg-white/60 px-4 py-2.5 shadow-xs backdrop-blur-md">
-              <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-violet-100 text-xs font-bold text-violet-700">📄</span>
-              <span className="text-xs font-semibold text-slate-700">100% DOCX Layout Safe</span>
-            </div>
-            <div className="flex items-center gap-2 rounded-2xl border border-white/80 bg-white/60 px-4 py-2.5 shadow-xs backdrop-blur-md">
-              <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-emerald-100 text-xs font-bold text-emerald-700">⚡</span>
-              <span className="text-xs font-semibold text-slate-700">Run-Level Mutation</span>
-            </div>
-            <div className="flex items-center gap-2 rounded-2xl border border-white/80 bg-white/60 px-4 py-2.5 shadow-xs backdrop-blur-md">
-              <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-blue-100 text-xs font-bold text-blue-700">🤖</span>
-              <span className="text-xs font-semibold text-slate-700">3-Tier AI Resilience</span>
-            </div>
-          </div>
+    <div className="cozy-auth-container relative min-h-screen w-full flex items-center justify-center p-6 overflow-hidden">
+      
+      {/* Top Right Window Sticky Note */}
+      <div className="absolute top-10 right-14 z-20 hidden lg:block rotate-6">
+        <div className="w-20 h-5 bg-amber-200/70 border border-amber-300/60 absolute -top-2.5 left-6 rotate-[-4deg] opacity-80" />
+        <div className="rounded-2xl border border-amber-300/90 bg-[#fffbeb] p-4 shadow-sm font-hand text-lg font-bold text-amber-900 text-center leading-tight">
+          Small<br />steps<br />Big<br />dreams<br />♡
         </div>
+      </div>
+
+      <div className="mx-auto grid w-full max-w-6xl items-center gap-8 lg:grid-cols-2 z-10 py-6">
         
-        {/* Right Auth Glass Card */}
-        <Glass className="mx-auto w-full max-w-md rounded-[32px] border border-white/90 p-8 shadow-2xl shadow-violet-900/10 backdrop-blur-2xl sm:p-10">
-          <form onSubmit={submit}>
-            <div className="mb-6 flex items-center gap-3 lg:hidden">
-              <Mascot small/>
-              <b className="font-hand text-3xl text-slate-800">Yokai <em className="not-italic text-violet-600">AI</em></b>
+        {/* Left Hero Column: Lo-Fi Desk Artwork Layout */}
+        <div className="hidden lg:flex flex-col justify-between min-h-[580px] p-4 relative">
+          
+          {/* Header Logo */}
+          <div className="flex items-center gap-3">
+            <CatLogoIcon className="h-11 w-11 shrink-0 filter drop-shadow-sm" />
+            <div>
+              <h1 className="font-hand text-4xl font-normal text-slate-900 leading-none">
+                Yokai <em className="not-italic text-violet-600 font-bold">AI</em>
+              </h1>
+              <p className="font-hand text-xl text-slate-600 mt-0.5">
+                Smarter documents. Happier you. ♡
+              </p>
             </div>
-            
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-violet-200/80 bg-violet-100/70 px-3.5 py-1.5 text-[10px] font-bold text-violet-700 backdrop-blur-md">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-violet-400 opacity-75"></span>
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-violet-600"></span>
-              </span>
-              <span className="uppercase tracking-widest">YOUR DOCUMENT ASSISTANT</span>
+          </div>
+
+          {/* Center Content: Workflow Sticky Note & Speech Bubble over Background Cat */}
+          <div className="relative my-4 flex items-center justify-center h-64">
+            {/* Left Sticky Note Paper */}
+            <div className="absolute -left-6 top-2 z-20 rotate-[-4deg]">
+              <div className="w-16 h-4 bg-amber-200/70 border border-amber-300/60 absolute -top-2 left-6 rotate-[3deg] opacity-80" />
+              <div className="rounded-2xl border border-amber-300/90 bg-[#fffbeb] p-4 shadow-md font-hand text-base text-slate-800 space-y-2.5">
+                <div className="flex items-center gap-2 font-bold text-slate-800">
+                  <span className="text-violet-600">📄</span> Upload
+                </div>
+                <div className="text-center text-slate-400 text-xs font-bold">↓</div>
+                <div className="flex items-center gap-2 font-bold text-slate-800">
+                  <span className="text-violet-600">✨</span> Understand
+                </div>
+                <div className="text-center text-slate-400 text-xs font-bold">↓</div>
+                <div className="flex items-center gap-2 font-bold text-slate-800">
+                  <span className="text-violet-600">✔️</span> Complete
+                </div>
+              </div>
             </div>
 
-            <h2 className="font-hand text-4xl sm:text-5xl font-normal text-slate-900 leading-tight mb-2">
-              {forgot ? 'Reset your password' : mode === 'signup' ? 'Create your account' : (
-                <>Sign in to <span className="font-sans font-bold bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">Yokai AI</span></>
-              )}
+            {/* Speech Bubble floating directly over the cozy-bg painted cat */}
+            <div className="absolute top-2 right-8 z-20 rounded-2xl border border-slate-700 bg-white px-4 py-1.5 shadow-sm font-hand text-base font-bold text-slate-800 rotate-3 float-cozy">
+              Ready when you are! 💬
+              <div className="absolute -bottom-2 left-6 h-3 w-3 rotate-45 border-r border-b border-slate-700 bg-white" />
+            </div>
+          </div>
+
+          {/* Bottom Left Greeting & Notebook */}
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <h2 className="font-hand text-4xl font-normal text-slate-900">
+                Hello, Ashlin! ♡
+              </h2>
+              <p className="font-hand text-xl text-slate-600 mt-1">
+                Your documents, your way.
+              </p>
+              <div className="w-32 h-1 bg-violet-400/60 rounded-full mt-1 rotate-[-1deg]" />
+            </div>
+
+            {/* Bottom Notebook Doodle */}
+            <div className="rotate-[-3deg] relative">
+              <div className="w-16 h-4 bg-blue-200/70 border border-blue-300/60 absolute -top-2 left-4 rotate-[-2deg] opacity-80" />
+              <div className="rounded-2xl border border-slate-200 bg-white p-3.5 shadow-md font-hand text-base font-bold text-slate-800 leading-snug text-center">
+                Better<br />Reports<br />Brighter<br />Future ♡
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Right Auth Glass Paper Card */}
+        <div className="mx-auto w-full max-w-md rounded-[32px] border border-white/80 bg-white/90 p-8 sm:p-10 shadow-[0_20px_60px_rgba(100,80,160,0.15)] backdrop-blur-md relative">
+          
+          <form onSubmit={submit}>
+            {/* Mobile Header Logo */}
+            <div className="mb-6 flex items-center gap-3 lg:hidden">
+              <CatLogoIcon className="h-10 w-10 shrink-0" />
+              <div>
+                <b className="font-hand text-3xl text-slate-900">Yokai <em className="not-italic text-violet-600 font-bold">AI</em></b>
+                <small className="block font-hand text-sm text-slate-600">Smarter documents. Happier you. ♡</small>
+              </div>
+            </div>
+
+            <h2 className="font-hand text-4xl sm:text-5xl font-normal text-slate-900 leading-tight mb-1">
+              {forgot ? 'Reset your password' : mode === 'signup' ? 'Create your account' : 'Sign in to Yokai AI'}
             </h2>
 
-            <p className="mb-7 text-sm leading-relaxed text-slate-500">
-              {forgot ? 'Enter your email and we’ll send a reset link.' : mode === 'signup' ? 'Start filling documents with AI magic.' : 'Continue your document journey with intelligent formatting. ✨'}
+            <p className="mb-6 font-hand text-lg text-slate-600">
+              {forgot ? 'Enter your email and we’ll send a reset link.' : mode === 'signup' ? 'Start filling documents with AI magic ✨' : 'Continue your document journey ✨'}
             </p>
-            
+
             {mode === 'signup' && (
               <Field
                 label="Full Name"
@@ -211,8 +245,8 @@ export default function ConnectedAuth({mode, setMode, enter}) {
                 onChange={update('name')}
                 icon={<UserIcon />}
               />
-            )} 
-            
+            )}
+
             <Field
               label="Email"
               placeholder="you@example.com"
@@ -221,7 +255,7 @@ export default function ConnectedAuth({mode, setMode, enter}) {
               onChange={update('email')}
               icon={<MailIcon />}
             />
-            
+
             {!forgot && (
               <>
                 <Field
@@ -232,7 +266,7 @@ export default function ConnectedAuth({mode, setMode, enter}) {
                   onChange={update('password')}
                   icon={<LockIcon />}
                 />
-                
+
                 {mode === 'signup' && (
                   <Field
                     label="Confirm Password"
@@ -242,66 +276,71 @@ export default function ConnectedAuth({mode, setMode, enter}) {
                     onChange={update('confirmPassword')}
                     icon={<LockIcon />}
                   />
-                )} 
+                )}
               </>
             )}
-            
+
             {!forgot && mode === 'signin' && (
-              <div className="-mt-2 mb-6 text-right">
+              <div className="-mt-2 mb-5 text-right">
                 <button
                   type="button"
                   onClick={() => setMode('forgot')}
-                  className="text-xs font-medium text-violet-600 hover:text-violet-700 hover:underline transition-colors"
+                  className="font-hand text-base font-semibold text-violet-600 hover:underline"
                 >
                   Forgot password?
                 </button>
               </div>
             )}
-            
+
             {mode === 'signup' && (
-              <label className="my-4 flex items-center gap-2 text-xs text-slate-600 cursor-pointer">
+              <label className="my-4 flex items-center gap-2 font-hand text-base text-slate-700 cursor-pointer">
                 <input type="checkbox" required className="h-4 w-4 rounded border-slate-300 text-violet-600 focus:ring-violet-500" />
-                <span>I agree to the Terms of Service and Privacy Policy</span>
+                <span>I agree to Terms & Privacy Policy</span>
               </label>
             )}
-            
+
             {message && (
-              <div className="mb-5 rounded-xl border border-red-200 bg-red-50/80 px-4 py-3 text-xs font-medium text-red-600 shadow-xs">
+              <div className="mb-4 rounded-xl border border-red-300 bg-red-50 p-3 font-hand text-base font-bold text-red-600 text-center shadow-sm">
                 {message}
               </div>
             )}
-            
-            <Button disabled={busy} className="mt-1">
-              {busy ? 'Please wait...' : forgot ? 'Send Reset Link →' : mode === 'signup' ? 'Create Account ✨' : 'Sign In →'}
-            </Button>
-            
+
+            {/* Solid Vibrant Soft Purple Primary Action Button */}
+            <button
+              type="submit"
+              disabled={busy}
+              className="w-full rounded-2xl bg-gradient-to-r from-violet-600 to-indigo-600 py-3.5 font-hand text-xl font-bold text-white shadow-lg shadow-violet-500/25 hover:from-violet-700 hover:to-indigo-700 transition-all flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <span>{busy ? 'Please wait...' : forgot ? 'Send Reset Link →' : mode === 'signup' ? 'Create Account ✨' : 'Sign In → ✨'}</span>
+            </button>
+
             {!forgot && (
               <>
-                <div className="my-6 flex items-center gap-3 text-xs font-medium text-slate-400">
-                  <span className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-300 to-slate-300"/>
+                <div className="my-6 flex items-center gap-3 font-hand text-base text-slate-400">
+                  <span className="h-px flex-1 bg-slate-200" />
                   <span>or continue with</span>
-                  <span className="h-px flex-1 bg-gradient-to-l from-transparent via-slate-300 to-slate-300"/>
+                  <span className="h-px flex-1 bg-slate-200" />
                 </div>
-                
+
                 <button
                   type="button"
                   onClick={googleSignIn}
                   disabled={busy}
-                  className="relative flex w-full items-center justify-center gap-3 rounded-xl border border-slate-200/90 bg-white/80 py-3.5 px-4 text-sm font-medium text-slate-700 shadow-xs backdrop-blur-sm transition-all duration-200 hover:bg-white hover:border-slate-300 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer"
+                  className="w-full rounded-2xl border border-slate-200 bg-white py-3 font-hand text-lg font-bold text-slate-700 shadow-sm hover:bg-slate-50 transition-all flex items-center justify-center gap-3 cursor-pointer"
                 >
                   <GoogleIcon />
                   <span>Continue with Google</span>
                 </button>
               </>
             )}
-            
-            <p className="mt-8 text-center text-xs text-slate-500">
+
+            <p className="mt-7 text-center font-hand text-lg text-slate-600">
               {modeSwitch}
             </p>
           </form>
-        </Glass>
+        </div>
+
       </div>
     </div>
   );
 }
-
